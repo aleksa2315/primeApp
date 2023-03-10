@@ -7,7 +7,6 @@ import javax.script.ScriptEngine;
 public class ActionManager {
 
     private ExitAction exitAction;
-    private EmployeeAction employeeAction;
     private CreateAction createAction;
     private DeleteAction deleteAction;
     private ReadAction readAction;
@@ -15,7 +14,6 @@ public class ActionManager {
     private MostEfficentAction mostEfficentAction;
     public ActionManager(){
         exitAction = new ExitAction(MainFrame.getInstance());
-        employeeAction = new EmployeeAction();
         createAction = new CreateAction();
         updateAction = new UpdateAction();
         deleteAction = new DeleteAction();
@@ -71,11 +69,4 @@ public class ActionManager {
         this.exitAction = exitAction;
     }
 
-    public EmployeeAction getEmployeeAction() {
-        return employeeAction;
-    }
-
-    public void setEmployeeAction(EmployeeAction employeeAction) {
-        this.employeeAction = employeeAction;
-    }
 }

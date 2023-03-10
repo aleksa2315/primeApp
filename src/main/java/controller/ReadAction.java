@@ -29,6 +29,11 @@ public class ReadAction extends AbstractAction implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
         String query = null;
         JTable jTable = (JTable) e.getSource();
         Point point = e.getPoint();
@@ -44,10 +49,6 @@ public class ReadAction extends AbstractAction implements MouseListener {
             }
             MainFrame.getInstance().getAppCore().fetchData(query);
         }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
 
     }
 

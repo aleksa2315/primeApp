@@ -272,7 +272,7 @@ public class MYSQLRepository implements Repository {
         try {
             this.initConnection();
 
-            String query = "UPDATE " + table + " SET " + columnName + " = '" + newVal + "' WHERE employeeID = " + taskID;
+            String query = "UPDATE " + table + " SET " + columnName + " = '" + newVal + "' WHERE taskID = " + taskID;
 
 
             Statement statement = connection.createStatement();

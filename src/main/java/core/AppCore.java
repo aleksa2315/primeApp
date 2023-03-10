@@ -1,5 +1,6 @@
 package core;
 
+import controller.ExitAction;
 import database.Database;
 import database.DatabaseImpl;
 import database.MYSQLRepository;
@@ -56,6 +57,7 @@ public class AppCore extends AppFramework{
         MainFrame.getInstance().setAppCore(appCore);
         appCore.run();
         MainFrame.getInstance().setTable();
+        MainFrame.getInstance().addWindowListener(MainFrame.getInstance().getActionManager().getExitAction());
     }
     private Settings initSettings() {
         Settings settingsImplementation = new SettingsImpl();

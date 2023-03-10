@@ -57,7 +57,7 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    public MainFrame(){this.addWindowListener(new ExitAction(this));}
+    public MainFrame(){}
 
     public static MainFrame getInstance(){
         if (instance == null){
