@@ -14,7 +14,7 @@ public class ExitAction extends AbstractAction implements WindowListener {
         this.parent = parent;
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
                 KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-        putValue(SMALL_ICON, loadIcon(""));
+        putValue(SMALL_ICON, loadIcon("exit"));
         putValue(NAME, "Exit");
         putValue(SHORT_DESCRIPTION, "Exit");
     }

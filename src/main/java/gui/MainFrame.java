@@ -2,9 +2,12 @@ package gui;
 
 import controller.ActionManager;
 import controller.ExitAction;
+import controller.ReadAction;
 import core.AppCore;
+import tree.Implementation.SelectionListener;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
@@ -38,21 +41,17 @@ public class MainFrame extends JFrame {
         this.desktop = new JPanel();
         this.desktop.setLayout(new BorderLayout());
 
-        this.jTable = new JTable();
-//        jTable.setFillsViewportHeight(true);
+        jTable = new JTable();
+        jTable.setFillsViewportHeight(true);
+        jTable.setRowSelectionAllowed(true);
+        jTable.setColumnSelectionAllowed(false);
 
-        this.jTextPane = new JTextPane();
+        jTextPane = new JTextPane();
         jTextPane.setPreferredSize(new Dimension(200,200));
 
-        JButton dugme = new JButton("Run query");
-        dugme.setSize(100,50);
-        desktop.add(jTextPane, BorderLayout.CENTER);
-        desktop.add(dugme, BorderLayout.SOUTH);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, new JScrollPane(jTable));
 
-        JSplitPane tabelaSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, desktop, new JScrollPane(jTable));
-        JSplitPane glavniSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, tabelaSplit);
-
-        this.add(glavniSplit,BorderLayout.CENTER);
+        this.add(splitPane,BorderLayout.CENTER);
         this.pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -68,10 +67,23 @@ public class MainFrame extends JFrame {
         return instance;
     }
 
+    public void initTree(){
+        DefaultTreeModel defaultTreeModel = appCore.loadResource();
+        jTree = new JTree(defaultTreeModel);
+        jTree.addTreeSelectionListener(new SelectionListener());
+        scrollPane = new JScrollPane(jTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+        pack();
+    }
+
     public void initialise(){actionManager = new ActionManager();}
 
     public static void setInstance(MainFrame instance) {
         MainFrame.instance = instance;
+    }
+
+    public void setTable(){
+        this.jTable.setModel(appCore.getTableModel());
+        this.jTable.addMouseListener(new ReadAction());
     }
 
     public AppCore getAppCore() {

@@ -10,7 +10,7 @@ public class App implements Gui {
     }
     public void start() {
         instance = MainFrame.getInstance();
-        //instance.initTree();
+        instance.initTree();
         instance.initGui();
         instance.setVisible(true);
     }
