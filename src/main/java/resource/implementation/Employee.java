@@ -1,19 +1,40 @@
 package resource.implementation;
 
-import java.sql.Date;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import javax.persistence.Entity;
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "employees")
 public class Employee {
-    private String name;
-    private String email;
-    private int phoneNum;
-    private Date birthday;
-    private int salary;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employeeID", nullable = false)
+    private Integer id;
 
-    public Employee(String name, String email, int phoneNum, Date birthday, int salary) {
-        this.name = name;
-        this.email = email;
-        this.phoneNum = phoneNum;
-        this.birthday = birthday;
-        this.salary = salary;
-    }
+    @Column(name = "name", nullable = false, length = 20)
+    private String name;
+
+    @Column(name = "email", nullable = false, length = 20)
+    private String email;
+
+    @Column(name = "phoneNumber")
+    private Integer phoneNumber;
+
+    @Column(name = "salary")
+    private Integer salary;
+
+    @Column(name = "birthday")
+    private LocalDate birthday;
+
+    @OneToMany(mappedBy = "employeeID")
+    private Set<Task> tasks = new LinkedHashSet<>();
+
 }

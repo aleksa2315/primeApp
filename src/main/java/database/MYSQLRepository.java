@@ -1,22 +1,15 @@
 package database;
 
-import com.mysql.cj.Query;
 import database.settings.Settings;
-import gui.MainFrame;
 import resource.DBNode;
 import resource.data.Row;
 import resource.enums.AttributeType;
 import resource.implementation.Attribute;
-import resource.implementation.Employee;
 import resource.implementation.Entity;
 import resource.implementation.InformationResource;
 
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.sql.*;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,7 +19,6 @@ public class MYSQLRepository implements Repository {
     private DatabaseMetaData metaData;
 
     private ArrayList<String> listaTabela = new ArrayList<>();
-    private ArrayList<Employee> employees = new ArrayList<>();
 
     public MYSQLRepository(Settings settings) {
         this.settings = settings;

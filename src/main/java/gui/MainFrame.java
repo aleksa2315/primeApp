@@ -21,15 +21,16 @@ public class MainFrame extends JFrame {
     private JTable jTable;
     private ActionManager actionManager;
     private JTree jTree;
-    private JTextPane jTextPane;
+    private JSplitPane leftSplit;
 
+    private ToolPanel toolPanel;
 
-    public void initGui(){
+    public void initGui() {
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
 
-        int screenWidth = screenSize.width/2;
-        int screenHeight = screenSize.height/2;
+        int screenWidth = screenSize.width / 2;
+        int screenHeight = screenSize.height / 2;
 
         setSize(screenWidth, screenHeight);
         setLocationRelativeTo(null);
@@ -41,15 +42,19 @@ public class MainFrame extends JFrame {
         this.desktop = new JPanel();
         this.desktop.setLayout(new BorderLayout());
 
+        //Tools panel
+        this.toolPanel = new ToolPanel();
+
+        //Left split
+        this.leftSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this.jTree, toolPanel);
+
+        //JTable
         jTable = new JTable();
         jTable.setFillsViewportHeight(true);
         jTable.setRowSelectionAllowed(true);
         jTable.setColumnSelectionAllowed(false);
 
-        jTextPane = new JTextPane();
-        jTextPane.setPreferredSize(new Dimension(200,200));
-
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane, new JScrollPane(jTable));
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSplit, new JScrollPane(jTable));
 
         this.add(splitPane,BorderLayout.CENTER);
         this.pack();
@@ -57,33 +62,37 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    public MainFrame(){}
+    public MainFrame() {
+    }
 
-    public static MainFrame getInstance(){
-        if (instance == null){
+    public static MainFrame getInstance() {
+        if (instance == null) {
             instance = new MainFrame();
             instance.initialise();
         }
         return instance;
     }
 
-    public void initTree(){
+    public void initTree() {
         DefaultTreeModel defaultTreeModel = appCore.loadResource();
         jTree = new JTree(defaultTreeModel);
         jTree.addTreeSelectionListener(new SelectionListener());
-        scrollPane = new JScrollPane(jTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+        jTree.setToggleClickCount(0);
+        scrollPane = new JScrollPane(jTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         pack();
     }
 
-    public void initialise(){actionManager = new ActionManager();}
+    public void initialise() {
+        actionManager = new ActionManager();
+    }
 
     public static void setInstance(MainFrame instance) {
         MainFrame.instance = instance;
     }
 
-    public void setTable(){
+    public void setTable() {
         this.jTable.setModel(appCore.getTableModel());
-        this.jTable.addMouseListener(new ReadAction());
+        this.jTable.addMouseListener(MainFrame.getInstance().getActionManager().getReadAction());
     }
 
     public AppCore getAppCore() {
@@ -140,14 +149,6 @@ public class MainFrame extends JFrame {
 
     public void setjTree(JTree jTree) {
         this.jTree = jTree;
-    }
-
-    public JTextPane getjTextPane() {
-        return jTextPane;
-    }
-
-    public void setjTextPane(JTextPane jTextPane) {
-        this.jTextPane = jTextPane;
     }
 }
 

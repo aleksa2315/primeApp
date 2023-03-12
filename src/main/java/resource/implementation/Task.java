@@ -1,17 +1,33 @@
 package resource.implementation;
 
-import java.sql.Date;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import javax.persistence.Entity;
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "tasks")
 public class Task {
-    private String title;
-    private Employee assignee;
-    private String description;
-    private Date dueDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "taskID", nullable = false)
+    private Integer id;
 
-    public Task(String title, Employee assignee, String description, Date dueDate) {
-        this.title = title;
-        this.assignee = assignee;
-        this.description = description;
-        this.dueDate = dueDate;
-    }
+    @Column(name = "title", nullable = false, length = 50)
+    private String title;
+
+    @Column(name = "description", nullable = false, length = 250)
+    private String description;
+
+    @Column(name = "dueDate")
+    private LocalDate dueDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employeeID")
+    private Employee employeeID;
+
 }

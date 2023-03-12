@@ -7,6 +7,7 @@ import tree.Tree;
 import tree.TreeItem;
 
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.util.List;
 
 public class TreeImplementation implements Tree {
@@ -32,6 +33,7 @@ public class TreeImplementation implements Tree {
         }
 
     }
+
 
 }
 

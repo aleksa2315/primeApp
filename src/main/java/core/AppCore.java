@@ -15,6 +15,7 @@ import tree.Implementation.TreeImplementation;
 import tree.Tree;
 import utils.Constants;
 
+import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -112,6 +113,11 @@ public class AppCore extends AppFramework{
     public void updateTask(String table, String columnName, String newVal, int taskID){
         this.database.updateTask(table,columnName,newVal,taskID);
         readDataFromTable(table);
+    }
+
+    public List<Row> getData(String table, String id, String column){
+        List<Row> list = this.database.fetchDataFromDatabase("SELECT * FROM " + table + " WHERE " + column + " = " + id);
+        return list;
     }
 
     public void mostEffEmp(){
