@@ -1,5 +1,6 @@
 package controller;
 
+import errorHandler.ErrorType;
 import gui.MainFrame;
 import gui.UpdateEmployeePanel;
 import resource.data.Row;
@@ -31,41 +32,31 @@ public class UpdateEmployeeAction extends AbstractAction{
 
     public UpdateEmployeeAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-                KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-        putValue(SMALL_ICON, loadIcon("update"));
+                KeyEvent.VK_F14, ActionEvent.ALT_MASK));
         putValue(NAME, "Update employee");
         putValue(SHORT_DESCRIPTION, "Update employee data");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        TreeItem item = (TreeItem) MainFrame.getInstance().getjTree().getLastSelectedPathComponent();
-        changes = new ArrayList();
+        if (MainFrame.getInstance().getjTable().getSelectedRow() == -1){
+            MainFrame.getInstance().getAppCore().getErrorHandler().generateError(ErrorType.NOTHING_SELECTED);
+        }else {
+            TreeItem item = (TreeItem) MainFrame.getInstance().getjTree().getLastSelectedPathComponent();
+            changes = new ArrayList();
 
-        int row = MainFrame.getInstance().getjTable().getSelectedRow();
-        int column = 1;
-        int employeeID = Integer.parseInt((String) MainFrame.getInstance().getjTable().getValueAt(row,column));
-        String columnName = MainFrame.getInstance().getjTable().getColumnName(column);
-        list = MainFrame.getInstance().getAppCore().getData(item.getName(), String.valueOf(employeeID),columnName);
-        setCurrVal(list.get(0));
-        UpdateEmployeePanel updateEmployeePanel = new UpdateEmployeePanel((Frame) MainFrame.getInstance().getParent(),"Update employee data", currName,currEmail,currPhone,currBday,currSalary);
-        updateEmployeePanel.setVisible(true);
+            int row = MainFrame.getInstance().getjTable().getSelectedRow();
+            int column = 1;
+            int employeeID = Integer.parseInt((String) MainFrame.getInstance().getjTable().getValueAt(row, column));
+            String columnName = MainFrame.getInstance().getjTable().getColumnName(column);
+            list = MainFrame.getInstance().getAppCore().getData(item.getName(), String.valueOf(employeeID), columnName);
+            setCurrVal(list.get(0));
+            UpdateEmployeePanel updateEmployeePanel = new UpdateEmployeePanel((Frame) MainFrame.getInstance().getParent(), "Update employee data", currName, currEmail, currPhone, currBday, currSalary);
+            updateEmployeePanel.setVisible(true);
 
-        loadNewValues(updateEmployeePanel);
-        checkDiff();
-
-        for (String string : changes){
-            switch (string) {
-                case "name": MainFrame.getInstance().getAppCore().updateEmployee(item.getName(),"name", newName,employeeID);
-                            continue;
-                case "email": MainFrame.getInstance().getAppCore().updateEmployee(item.getName(), "email", newEmail, employeeID);
-                            continue;
-                case "phone": MainFrame.getInstance().getAppCore().updateEmployee(item.getName(),"phoneNumber", newPhone, employeeID);
-                            continue;
-                case "salary": MainFrame.getInstance().getAppCore().updateEmployee(item.getName(),"salary", newSalary, employeeID);
-                            continue;
-                case "bday": MainFrame.getInstance().getAppCore().updateEmployee(item.getName(),"birthday", newBday,employeeID);
-                            continue;
+            loadNewValues(updateEmployeePanel);
+            if (checkDiff() != 0) {
+                MainFrame.getInstance().getAppCore().updateEmployee(item.getName(), newName, newEmail, newSalary, newPhone, newBday, employeeID);
             }
         }
     }
@@ -79,26 +70,28 @@ public class UpdateEmployeeAction extends AbstractAction{
         currPhone = (String) values.get("phoneNumber");
     }
 
-    private void checkDiff(){
+    private int checkDiff(){
+        int a = 0;
         if (!currName.equals(newName)){
-            changes.add("name");
+            a++;
         }
 
         if (!currEmail.equals(newEmail)){
-            changes.add("email");
+            a++;
         }
 
         if (!currPhone.equals(newPhone)){
-            changes.add("phone");
+            a++;
         }
 
         if (!currSalary.equals(newSalary)){
-            changes.add("salary");
+            a++;
         }
 
         if (!currBday.equals(newBday)){
-            changes.add("bday");
+            a++;
         }
+        return a;
     }
 
     private void loadNewValues(UpdateEmployeePanel panel){

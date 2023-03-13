@@ -7,25 +7,107 @@ public class ActionManager {
     private ExitAction exitAction;
     private CreateEmployeeAction createEmployeeAction;
     private DeleteEmployeeAction deleteEmployeeAction;
-    private ReadAction readAction;
+    private ReadEmployeeAction readEmployeeAction;
     private UpdateEmployeeAction updateEmployeeAction;
-    private MostEfficentAction mostEfficentAction;
+    private MostEfficentEmployeesAction mostEfficentEmployeesAction;
     private CreateTaskAction createTaskAction;
     private UpdateTaskAction updateTaskAction;
     private DeleteTaskAction deleteTaskAction;
     private ReadTaskAction readTaskAction;
+    private BackAction backAction;
+    private ReadDepartmentAction readDepartmentAction;
+    private CreateDepartmentAction createDepartmentAction;
+    private MostEfficientDeptAction mostEfficientDeptAction;
+    private AverageSalaryAction averageSalaryAction;
+    private TaskLoadAction taskLoadAction;
+    private AgeDifferenceAction ageDifferenceAction;
 
     public ActionManager(){
         exitAction = new ExitAction(MainFrame.getInstance());
         createEmployeeAction = new CreateEmployeeAction();
         updateEmployeeAction = new UpdateEmployeeAction();
         deleteEmployeeAction = new DeleteEmployeeAction();
-        readAction = new ReadAction();
-        mostEfficentAction = new MostEfficentAction();
+        readEmployeeAction = new ReadEmployeeAction();
+        mostEfficentEmployeesAction = new MostEfficentEmployeesAction();
         createTaskAction = new CreateTaskAction();
         updateTaskAction = new UpdateTaskAction();
         deleteTaskAction = new DeleteTaskAction();
         readTaskAction = new ReadTaskAction();
+        backAction = new BackAction();
+        readDepartmentAction = new ReadDepartmentAction();
+        createDepartmentAction = new CreateDepartmentAction();
+        mostEfficientDeptAction = new MostEfficientDeptAction();
+        taskLoadAction = new TaskLoadAction();
+        ageDifferenceAction = new AgeDifferenceAction();
+        averageSalaryAction = new AverageSalaryAction();
+    }
+
+    public AverageSalaryAction getAverageSalaryAction() {
+        return averageSalaryAction;
+    }
+
+    public void setAverageSalaryAction(AverageSalaryAction averageSalaryAction) {
+        this.averageSalaryAction = averageSalaryAction;
+    }
+
+    public TaskLoadAction getTaskLoadAction() {
+        return taskLoadAction;
+    }
+
+    public void setTaskLoadAction(TaskLoadAction taskLoadAction) {
+        this.taskLoadAction = taskLoadAction;
+    }
+
+    public AgeDifferenceAction getAgeDifferenceAction() {
+        return ageDifferenceAction;
+    }
+
+    public MostEfficentEmployeesAction getMostEfficentEmployeesAction() {
+        return mostEfficentEmployeesAction;
+    }
+
+    public void setMostEfficentEmployeesAction(MostEfficentEmployeesAction mostEfficentEmployeesAction) {
+        this.mostEfficentEmployeesAction = mostEfficentEmployeesAction;
+    }
+
+    public MostEfficientDeptAction getMostEfficientDeptAction() {
+        return mostEfficientDeptAction;
+    }
+
+    public void setMostEfficientDeptAction(MostEfficientDeptAction mostEfficientDeptAction) {
+        this.mostEfficientDeptAction = mostEfficientDeptAction;
+    }
+
+    public ReadDepartmentAction getReadDepartmentAction() {
+        return readDepartmentAction;
+    }
+
+    public void setReadDepartmentAction(ReadDepartmentAction readDepartmentAction) {
+        this.readDepartmentAction = readDepartmentAction;
+    }
+
+    public CreateDepartmentAction getCreateDepartmentAction() {
+        return createDepartmentAction;
+    }
+
+    public void setCreateDepartmentAction(CreateDepartmentAction createDepartmentAction) {
+        this.createDepartmentAction = createDepartmentAction;
+    }
+
+    public ReadEmployeeAction getReadEmployeeAction() {
+        return readEmployeeAction;
+    }
+
+    public void setReadEmployeeAction(ReadEmployeeAction readEmployeeAction) {
+        this.readEmployeeAction = readEmployeeAction;
+    }
+
+    public BackAction getBackAction() {
+        return backAction;
+    }
+
+    public void setBackAction(BackAction backAction) {
+        this.backAction = backAction;
     }
 
     public ReadTaskAction getReadTaskAction() {
@@ -76,12 +158,12 @@ public class ActionManager {
         this.updateTaskAction = updateTaskAction;
     }
 
-    public MostEfficentAction getMostEfficentAction() {
-        return mostEfficentAction;
+    public MostEfficentEmployeesAction getMostEfficentAction() {
+        return mostEfficentEmployeesAction;
     }
 
-    public void setMostEfficentAction(MostEfficentAction mostEfficentAction) {
-        this.mostEfficentAction = mostEfficentAction;
+    public void setMostEfficentAction(MostEfficentEmployeesAction mostEfficentEmployeesAction) {
+        this.mostEfficentEmployeesAction = mostEfficentEmployeesAction;
     }
 
     public CreateEmployeeAction getCreateAction() {
@@ -100,12 +182,12 @@ public class ActionManager {
         this.deleteEmployeeAction = deleteEmployeeAction;
     }
 
-    public ReadAction getReadAction() {
-        return readAction;
+    public ReadEmployeeAction getReadAction() {
+        return readEmployeeAction;
     }
 
-    public void setReadAction(ReadAction readAction) {
-        this.readAction = readAction;
+    public void setReadAction(ReadEmployeeAction readEmployeeAction) {
+        this.readEmployeeAction = readEmployeeAction;
     }
 
     public UpdateEmployeeAction getUpdateAction() {

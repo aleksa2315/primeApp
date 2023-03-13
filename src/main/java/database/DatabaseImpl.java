@@ -45,14 +45,17 @@ public class DatabaseImpl implements Database{
         repository.deleteTask(table,taskID);
     }
 
-    public void updateEmployee(String table, String columnName, String newVal, int employeeID){
-        repository.updateEmployee(table,columnName,newVal,employeeID);
+    public void updateEmployee(String table, String name, String email, String salary, String phoneNum, String bday, int employeeID){
+        repository.updateEmployee(table,name, email, salary,phoneNum,bday,employeeID);
     }
 
-    public void updateTask(String table, String columnName, String newVal, int taskID){
-        repository.updateTask(table,columnName,newVal,taskID);
+    public void updateTask(String table, String title, String description, String dueDate, String assignee, int taskID){
+        repository.updateTask(table,title,description,dueDate,assignee,taskID);
     }
 
+    public void createNewDept(String name, int manager){
+        repository.createNewDept(name,manager);
+    }
     public void mostEffEmp(){
         repository.mostEffEmp();
     }

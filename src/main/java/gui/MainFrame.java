@@ -1,8 +1,6 @@
 package gui;
 
 import controller.ActionManager;
-import controller.ExitAction;
-import controller.ReadAction;
 import core.AppCore;
 import tree.Implementation.SelectionListener;
 
@@ -26,6 +24,7 @@ public class MainFrame extends JFrame {
     private ToolPanel toolPanel;
 
     public void initGui() {
+        this.setTitle("Prime 2023.1 app");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
 

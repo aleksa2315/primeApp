@@ -1,5 +1,6 @@
 package controller;
 
+import errorHandler.ErrorType;
 import gui.MainFrame;
 import gui.UpdateEmployeePanel;
 import gui.UpdateTaskPanel;
@@ -30,39 +31,31 @@ public class UpdateTaskAction extends AbstractAction{
 
     public UpdateTaskAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-                KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-        putValue(SMALL_ICON, loadIcon("update"));
+                KeyEvent.VK_F15, ActionEvent.ALT_MASK));
         putValue(NAME, "Update task");
         putValue(SHORT_DESCRIPTION, "Update task data");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        TreeItem item = (TreeItem) MainFrame.getInstance().getjTree().getLastSelectedPathComponent();
-        changes = new ArrayList();
+        if (MainFrame.getInstance().getjTable().getSelectedRow() == -1){
+            MainFrame.getInstance().getAppCore().getErrorHandler().generateError(ErrorType.NOTHING_SELECTED);
+        }else {
+            TreeItem item = (TreeItem) MainFrame.getInstance().getjTree().getLastSelectedPathComponent();
+            changes = new ArrayList();
 
-        int row = MainFrame.getInstance().getjTable().getSelectedRow();
-        int column = 2;
-        int taskID = Integer.parseInt((String) MainFrame.getInstance().getjTable().getValueAt(row,column));
-        String columnName = MainFrame.getInstance().getjTable().getColumnName(column);
-        list = MainFrame.getInstance().getAppCore().getData(item.getName(), String.valueOf(taskID),columnName);
-        setCurrVal(list.get(0));
-        UpdateTaskPanel updateTaskPanel = new UpdateTaskPanel((Frame) MainFrame.getInstance().getParent(),"Update task data", currTitle,currDesc,currAssignee,currDueDate);
-        updateTaskPanel.setVisible(true);
+            int row = MainFrame.getInstance().getjTable().getSelectedRow();
+            int column = 2;
+            int taskID = Integer.parseInt((String) MainFrame.getInstance().getjTable().getValueAt(row, column));
+            String columnName = MainFrame.getInstance().getjTable().getColumnName(column);
+            list = MainFrame.getInstance().getAppCore().getData(item.getName(), String.valueOf(taskID), columnName);
+            setCurrVal(list.get(0));
+            UpdateTaskPanel updateTaskPanel = new UpdateTaskPanel((Frame) MainFrame.getInstance().getParent(), "Update task data", currTitle, currDesc, currAssignee, currDueDate);
+            updateTaskPanel.setVisible(true);
 
-        loadNewValues(updateTaskPanel);
-        checkDiff();
-
-        for (String string : changes){
-            switch (string) {
-                case "title": MainFrame.getInstance().getAppCore().updateTask(item.getName(),"title", newTitle,taskID);
-                    continue;
-                case "description": MainFrame.getInstance().getAppCore().updateTask(item.getName(), "descripion", newDesc, taskID);
-                    continue;
-                case "assignee": MainFrame.getInstance().getAppCore().updateEmployee(item.getName(),"assigneID", newAssignee, taskID);
-                    continue;
-                case "dueDate": MainFrame.getInstance().getAppCore().updateEmployee(item.getName(),"dueDate", newDesc, taskID);
-                    continue;
+            loadNewValues(updateTaskPanel);
+            if (checkDiff() != 0) {
+                MainFrame.getInstance().getAppCore().updateTask(item.getName(), newTitle, newDesc, newDueDate, newAssignee, taskID);
             }
         }
     }
@@ -71,27 +64,29 @@ public class UpdateTaskAction extends AbstractAction{
         Map<String,Object> values = row.getFields();
         currTitle = (String) values.get("title");
         currDesc = (String) values.get("description");
-        currAssignee = (String) values.get("assigneeID");
+        currAssignee = (String) values.get("employeeID");
         currDueDate = (String) values.get("dueDate");
     }
 
-    private void checkDiff(){
+    private int checkDiff(){
+        int a = 0;
         if (!currTitle.equals(newTitle)){
-            changes.add("title");
+            a++;
         }
 
         if (!currDesc.equals(newDesc)){
-            changes.add("description");
+            a++;
         }
 
         if (!currAssignee.equals(newAssignee)){
-            changes.add("assigneeID");
+            a++;
         }
 
         if (!currDueDate.equals(newDueDate)){
-            changes.add("dueDate");
+            a++;
         }
 
+        return a;
     }
 
     private void loadNewValues(UpdateTaskPanel panel){

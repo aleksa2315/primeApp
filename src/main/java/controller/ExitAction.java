@@ -14,7 +14,6 @@ public class ExitAction extends AbstractAction implements WindowListener {
         this.parent = parent;
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
                 KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-        putValue(SMALL_ICON, loadIcon("exit"));
         putValue(NAME, "Exit");
         putValue(SHORT_DESCRIPTION, "Exit");
     }
@@ -22,7 +21,7 @@ public class ExitAction extends AbstractAction implements WindowListener {
 
     public void actionPerformed(ActionEvent e) {
         JFrame frame = parent;
-        int code = JOptionPane.showConfirmDialog(frame,"Da li ste sigurni da zelite da zatvorite aplikaciju?","Zatvaranje aplikacije?",JOptionPane.YES_NO_OPTION);
+        int code = JOptionPane.showConfirmDialog(frame,"Are you sure you want to close the application?","Close application?",JOptionPane.YES_NO_OPTION);
         if (code != JOptionPane.YES_OPTION){
             frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         }else{
@@ -36,7 +35,7 @@ public class ExitAction extends AbstractAction implements WindowListener {
 
     public void windowClosing(WindowEvent e) {
         JFrame frame = (JFrame) e.getComponent();
-        int code = JOptionPane.showConfirmDialog(frame,"Da li ste sigurni da zelite da zatvorite aplikaciju?","Zatvaranje aplikacije?",JOptionPane.YES_NO_OPTION);
+        int code = JOptionPane.showConfirmDialog(frame,"Are you sure you want to close the application?","Close application?",JOptionPane.YES_NO_OPTION);
         if (code != JOptionPane.YES_OPTION){
             frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         }else{

@@ -16,8 +16,7 @@ public class CreateTaskAction extends AbstractAction {
     private int assignee;
     public CreateTaskAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-                KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-        putValue(SMALL_ICON, loadIcon("createTask"));
+                KeyEvent.VK_F6, ActionEvent.ALT_MASK));
         putValue(NAME, "Create task");
         putValue(SHORT_DESCRIPTION, "Create new task");
     }

@@ -6,6 +6,8 @@ import database.DatabaseImpl;
 import database.MYSQLRepository;
 import database.settings.Settings;
 import database.settings.SettingsImpl;
+import errorHandler.ErrorHandler;
+import errorHandler.ErrorHandlerImpl;
 import gui.App;
 import gui.MainFrame;
 import gui.table.TableModel;
@@ -28,6 +30,7 @@ public class AppCore extends AppFramework{
     private DefaultTreeModel defaultTreeModel;
     private Tree tree;
     private List<Row> rowList = new ArrayList<>();
+    private ErrorHandler errorHandler;
 
     public List<Row> getRowList() {
         return rowList;
@@ -42,6 +45,7 @@ public class AppCore extends AppFramework{
         this.database = new DatabaseImpl(new MYSQLRepository(this.settings));
         this.tableModel = new TableModel();
         this.tree = new TreeImplementation();
+        this.errorHandler = new ErrorHandlerImpl();
     }
 
     public static AppCore getInstance(){
@@ -105,19 +109,29 @@ public class AppCore extends AppFramework{
         readDataFromTable(table);
     }
 
-    public void updateEmployee(String table, String columnName, String newVal, int employeeID){
-        this.database.updateEmployee(table,columnName,newVal,employeeID);
+    public void updateEmployee(String table, String name, String email, String salary, String phoneNum, String bday, int employeeID){
+        this.database.updateEmployee(table,name,email,salary,phoneNum,bday,employeeID);
         readDataFromTable(table);
     }
 
-    public void updateTask(String table, String columnName, String newVal, int taskID){
-        this.database.updateTask(table,columnName,newVal,taskID);
+    public void updateTask(String table, String title, String description, String dueDate, String assignee, int taskID){
+        this.database.updateTask(table,title,description,dueDate,assignee,taskID);
         readDataFromTable(table);
     }
 
     public List<Row> getData(String table, String id, String column){
         List<Row> list = this.database.fetchDataFromDatabase("SELECT * FROM " + table + " WHERE " + column + " = " + id);
         return list;
+    }
+
+    public List<Row> getTable(String table){
+        List<Row> list = this.database.fetchDataFromDatabase("SELECT * FROM " + table);
+        return list;
+    }
+
+    public void createNewDept(String name, int manager){
+        this.database.createNewDept(name,manager);
+        readDataFromTable("departments");
     }
 
     public void mostEffEmp(){
@@ -169,5 +183,9 @@ public class AppCore extends AppFramework{
 
     public static void setInstance(AppCore instance) {
         AppCore.instance = instance;
+    }
+
+    public ErrorHandler getErrorHandler() {
+        return errorHandler;
     }
 }

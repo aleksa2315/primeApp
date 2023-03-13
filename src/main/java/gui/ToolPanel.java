@@ -8,14 +8,22 @@ public class ToolPanel extends JPanel {
     private JPanel toolPanel;
     private JPanel employeePanel;
     private JPanel taskPanel;
+    private JPanel departmentPanel;
+    private JPanel statisticsPanel;
     public ToolPanel(){
         setBoxLayout();
         this.employeePanel = new JPanel();
         this.taskPanel = new JPanel();
+        this.departmentPanel = new JPanel();
+        this.statisticsPanel = new JPanel();
 
         this.add(employeePanel());
         this.add(new JSeparator());
         this.add(taskPanel());
+        this.add(new JSeparator());
+        this.add(departmentPanel());
+        this.add(new JSeparator());
+        this.add(statisticsPanel());
     }
 
     private void setBoxLayout(){
@@ -73,6 +81,55 @@ public class ToolPanel extends JPanel {
         this.taskPanel.add(update);
 
         return taskPanel;
+    }
+
+    private JPanel departmentPanel(){
+        BoxLayout layout = new BoxLayout(this.departmentPanel,BoxLayout.Y_AXIS);
+        this.departmentPanel.setLayout(layout);
+        JLabel label = new JLabel("Department tools");
+
+        JButton create = new JButton("Create new department");
+        create.setAction(MainFrame.getInstance().getActionManager().getCreateDepartmentAction());
+
+        JButton read = new JButton("Read department");
+        read.setAction(MainFrame.getInstance().getActionManager().getReadDepartmentAction());
+
+        this.departmentPanel.add(label);
+        this.departmentPanel.add(create);
+        this.departmentPanel.add(read);
+
+        return departmentPanel;
+    }
+
+    private JPanel statisticsPanel(){
+        BoxLayout layout = new BoxLayout(this.statisticsPanel,BoxLayout.Y_AXIS);
+        this.statisticsPanel.setLayout(layout);
+        JLabel label = new JLabel("Statistics tools");
+
+        JButton efficientEmployees = new JButton("Most efficient employees");
+        efficientEmployees.setAction(MainFrame.getInstance().getActionManager().getMostEfficentAction());
+
+        JButton efficientDepartments = new JButton("Most efficient departments");
+        efficientDepartments.setAction(MainFrame.getInstance().getActionManager().getMostEfficientDeptAction());
+
+        JButton averageAge = new JButton("Average age difference");
+        averageAge.setAction(MainFrame.getInstance().getActionManager().getAgeDifferenceAction());
+
+        JButton averageSalary = new JButton("Most efficient departments");
+        averageSalary.setAction(MainFrame.getInstance().getActionManager().getAverageSalaryAction());
+
+        JButton taskLoad = new JButton("Most efficient departments");
+        taskLoad.setAction(MainFrame.getInstance().getActionManager().getTaskLoadAction());
+
+        this.statisticsPanel.add(label);
+        this.statisticsPanel.add(efficientEmployees);
+        this.statisticsPanel.add(efficientDepartments);
+        this.statisticsPanel.add(averageAge);
+        this.statisticsPanel.add(averageSalary);
+        this.statisticsPanel.add(taskLoad);
+
+
+        return statisticsPanel;
     }
 
 }

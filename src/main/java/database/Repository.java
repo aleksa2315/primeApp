@@ -23,9 +23,10 @@ public interface Repository {
 
     void deleteTask(String table, int taskID);
 
-    void updateEmployee(String table, String columnName, String newVal, int employeeID);
+    void updateEmployee(String table, String name, String email, String salary, String phoneNum, String bday, int employeeID);
 
-    void updateTask(String table, String columnName, String newVal, int taskID);
+    void updateTask(String table, String title, String description, String dueDate, String assignee, int taskID);
+     void createNewDept(String name, int manager);
 
     void mostEffEmp();
 

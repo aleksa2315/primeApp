@@ -1,6 +1,7 @@
 package database;
 
 import database.settings.Settings;
+import org.apache.commons.dbcp2.BasicDataSource;
 import resource.DBNode;
 import resource.data.Row;
 import resource.enums.AttributeType;
@@ -17,6 +18,7 @@ public class MYSQLRepository implements Repository {
     private Settings settings;
     private Connection connection;
     private DatabaseMetaData metaData;
+    private static final BasicDataSource dataSource = new BasicDataSource();
 
     private ArrayList<String> listaTabela = new ArrayList<>();
 
@@ -25,13 +27,19 @@ public class MYSQLRepository implements Repository {
     }
 
     private void initConnection() throws SQLException, ClassNotFoundException{
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://db4free.net:3306/primeapp");
+        dataSource.setUsername("primeapp");
+        dataSource.setPassword("12345678");
+
         String ip = (String) settings.getParameter("mysql_ip");
         String database = (String) settings.getParameter("mysql_database");
         String username = (String) settings.getParameter("mysql_username");
         String password = (String) settings.getParameter("mysql_password");
         String port = (String) settings.getParameter("mysql_port");
 
-        connection = DriverManager.getConnection("jdbc:mysql://"+ip+":"+port+"/"+database,username,password);
+//        connection = DriverManager.getConnection("jdbc:mysql://"+ip+":"+port+"/"+database,username,password);
+        connection = dataSource.getConnection();
         metaData = connection.getMetaData();
     }
 
@@ -241,12 +249,12 @@ public class MYSQLRepository implements Repository {
         }
     }
 
-    public void updateEmployee(String table, String columnName, String newVal, int employeeID){
+    public void updateEmployee(String table, String name, String email, String salary, String phoneNum, String bday, int employeeID){
         try {
             this.initConnection();
 
 //          UPDATE employees SET name = 'aleksan' WHERE employeeID = 1;
-            String query = "UPDATE " + table + " SET " + columnName + " = '" + newVal + "' WHERE employeeID = " + employeeID;
+            String query = "UPDATE " + table + " SET " + "name = '" + name + "', email = '"+ email + "', salary = " + Integer.valueOf(salary)+ ", phoneNumber = " + Integer.valueOf(phoneNum)+ ", birthday = '"+ bday  + "' WHERE employeeID = " + employeeID;
 
             Statement statement = connection.createStatement();
             int cnt = statement.executeUpdate(query);
@@ -260,14 +268,13 @@ public class MYSQLRepository implements Repository {
         }
     }
 
-    public void updateTask(String table, String columnName, String newVal, int taskID){
+    public void updateTask(String table, String title, String description, String dueDate, String assignee, int taskID){
         try {
             this.initConnection();
 
-            String query = "UPDATE " + table + " SET " + columnName + " = '" + newVal + "' WHERE taskID = " + taskID;
+            String query = "UPDATE " + table + " SET title = '" + title + "', description = '" + description + "', dueDate = '" + dueDate + "', employeeID = " + Integer.valueOf(assignee) + " WHERE taskID = " + taskID;
 
-
-            Statement statement = connection.createStatement();
+            Statement statement = connection.prepareStatement(query);
             int cnt = statement.executeUpdate(query);
 
         }catch (Exception e){
@@ -275,6 +282,22 @@ public class MYSQLRepository implements Repository {
         }finally {
             this.closeConnection();
 
+        }
+    }
+
+    public void createNewDept(String name, int manager){
+        try {
+            this.initConnection();
+
+            //INSERT INTO `departments` (`departmentID`, `name`, `managerID`) VALUES (NULL, 'asdasd', '15')
+            String query = "INSERT INTO `departments` (`departmentID`, `name`, `managerID`) VALUES (NULL, '" + name+ "', '"+manager+"')";
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            this.closeConnection();
         }
     }
 

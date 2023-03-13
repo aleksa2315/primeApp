@@ -6,12 +6,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-public class MostEfficentAction extends AbstractAction{
-    public MostEfficentAction() {
+public class MostEfficentEmployeesAction extends AbstractAction{
+    public MostEfficentEmployeesAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(
-                KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-        putValue(SMALL_ICON, loadIcon("mosteff"));
-        putValue(NAME, "Most efficient");
+                KeyEvent.VK_F9, ActionEvent.ALT_MASK));
+        putValue(NAME, "Most efficient employees");
         putValue(SHORT_DESCRIPTION, "Show table of 5 most efficient employees in the last month");
     }
     @Override

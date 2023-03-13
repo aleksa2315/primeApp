@@ -1,5 +1,6 @@
 package gui;
 
+import errorHandler.ErrorType;
 import utils.HintTextField;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class CreateNewEmployeePanel extends JDialog {
     private JTextField emailField;
     private JTextField phoneField;
     private JTextField salaryField;
-    private JTextField dateField;
+    private HintTextField dateField;
 
     public CreateNewEmployeePanel(Frame parent, String title) {
         super(parent,title);
@@ -25,7 +26,7 @@ public class CreateNewEmployeePanel extends JDialog {
         this.emailField = new JTextField();
         this.phoneField = new JTextField();
         this.salaryField= new JTextField();
-        this.dateField = new JTextField();
+        this.dateField = new HintTextField("Enter in yyyy-mm-dd format");
 
         setSize(400,300);
         setLocationRelativeTo(parent);
@@ -39,14 +40,19 @@ public class CreateNewEmployeePanel extends JDialog {
 
         JButton createBtn = new JButton("Create employee");
         createBtn.addActionListener(e -> {
-            name = nameField.getText();
-            email = emailField.getText();
-            phoneNumber = Integer.parseInt(phoneField.getText());
-            salary = Integer.parseInt(salaryField.getText());
-            birthDay = java.sql.Date.valueOf(dateField.getText());
-
-            MainFrame.getInstance().getAppCore().createEmployee(name, email, phoneNumber, salary, birthDay,"employees");
-            dispose();
+            if (nameField.getText().isEmpty() || emailField.getText().isEmpty() || phoneField.getText().isEmpty() || salaryField.getText().isEmpty() || dateField.getText().isEmpty()){
+                MainFrame.getInstance().getAppCore().getErrorHandler().generateError(ErrorType.EMPTY);
+            }else if ((Integer.parseInt(salaryField.getText()) ) < 1) {
+                MainFrame.getInstance().getAppCore().getErrorHandler().generateError(ErrorType.MINUS);
+            }else{
+                name = nameField.getText();
+                email = emailField.getText();
+                phoneNumber = Integer.parseInt(phoneField.getText());
+                salary = Integer.parseInt(salaryField.getText());
+                birthDay = java.sql.Date.valueOf(dateField.getText());
+                MainFrame.getInstance().getAppCore().createEmployee(name, email, phoneNumber, salary, birthDay, "employees");
+                dispose();
+            }
         });
 
         JButton cancelBtn = new JButton("Cancel");
